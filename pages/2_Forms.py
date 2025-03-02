@@ -37,14 +37,17 @@ tab1, tab2, tab3 = st.tabs(["New Asset", "New Lease Contract", "New Lease"])
 with tab1:
     formtab1_values = {
         "Imovel": None,
-        "Lagitude": None,
-        "Longitude": None,
+        "LAT": None,
+        "LON": None,
         "Estrategia": None,
     }
+    st.session_state["df"]  = load_data( worksheet = 'Assets')
+    st.map(st.session_state["df"].set_index('Imovel')[['LAT', 'LON']].dropna())
+
     with st.form(key='my_formtab1'):
         formtab1_values['Imovel'] = st.text_input(label='Imovel')
-        formtab1_values['Lagitude'] = st.number_input(label='Lagitude', min_value=0.00000, max_value=1000.00000, format="%0.00000f")
-        formtab1_values['Longitude'] = st.number_input(label='Longitude', min_value=0.00000, max_value=1000.00000, format="%0.00000f")        
+        formtab1_values['LAT'] = st.number_input(label='LAT', min_value=-1000.000000, max_value=1000.000000, format="%0.000001f")
+        formtab1_values['LON'] = st.number_input(label='LON', min_value=-1000.000000, max_value=1000.000000, format="%0.000001f")        
         formtab1_values['Estrategia'] = st.selectbox('Estrategia', ['Logistico', 'Escritorio', 'Varejo', 'Educacional',  'Residencial', 'Outros'])  
 
         submit_button = st.form_submit_button(label='Submit')
