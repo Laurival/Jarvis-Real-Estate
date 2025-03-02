@@ -28,10 +28,14 @@ def update_data(data, worksheet):
 if "df" not in st.session_state:
     st.session_state["df"] = None
 
+# Features
+def plot_map():
+    st.session_state["df"]  = load_data( worksheet = 'Assets')
+    st.map(st.session_state["df"].set_index('Imovel')[['LAT', 'LON']].dropna())
 
 # Page layout
 st.title('Forms')
-tab1, tab2, tab3 = st.tabs(["New Asset", "New Lease Contract", "New Lease"])
+tab1, tab2, tab3 = st.tabs(["New Asset", "New Lease Contract", ""])
 
 # New Asset - Tab1
 with tab1:
@@ -41,13 +45,13 @@ with tab1:
         "LON": None,
         "Estrategia": None,
     }
-    st.session_state["df"]  = load_data( worksheet = 'Assets')
-    st.map(st.session_state["df"].set_index('Imovel')[['LAT', 'LON']].dropna())
+    # Plot map
+    plot_map()
 
     with st.form(key='my_formtab1'):
         formtab1_values['Imovel'] = st.text_input(label='Imovel')
-        formtab1_values['LAT'] = st.number_input(label='LAT', min_value=-1000.000000, max_value=1000.000000, format="%0.000001f")
-        formtab1_values['LON'] = st.number_input(label='LON', min_value=-1000.000000, max_value=1000.000000, format="%0.000001f")        
+        formtab1_values['LAT'] = st.number_input(label='LAT', min_value=-100.000000, max_value=100.000000, format="%0.6f", value= 0.00000)
+        formtab1_values['LON'] = st.number_input(label='LON', min_value=-100.000000, max_value=100.000000, format="%0.6f", value= 0.00000)        
         formtab1_values['Estrategia'] = st.selectbox('Estrategia', ['Logistico', 'Escritorio', 'Varejo', 'Educacional',  'Residencial', 'Outros'])  
 
         submit_button = st.form_submit_button(label='Submit')

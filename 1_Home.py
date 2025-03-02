@@ -20,6 +20,11 @@ def load_data(worksheet):
     st.session_state["df"] = st.session_state["df"].dropna(how='all')
     return st.session_state["df"]
 
+# Features
+def plot_map():
+    st.session_state["df"]  = load_data( worksheet = 'Assets')
+    st.map(st.session_state["df"].set_index('Imovel')[['LAT', 'LON']].dropna())
+
 # Home page
 st.title('Welcome to Jarvis')
 st.markdown('A platform to manage your real estate properties')
@@ -27,6 +32,7 @@ st.markdown('A platform to manage your real estate properties')
 
 # Assets
 with st.expander('Asset'): 
+    plot_map()
     st.session_state["df"] = load_data( worksheet = 'Assets')
     st.write(st.session_state["df"])
 
