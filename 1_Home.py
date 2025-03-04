@@ -1,5 +1,7 @@
 import streamlit as st
 import pandas as pd
+import folium
+from streamlit_folium import st_folium
 from streamlit_gsheets import GSheetsConnection
 import matplotlib.pyplot as plt
 
@@ -8,7 +10,7 @@ st.set_page_config(
     page_title="Home",
     page_icon="🏠",
     layout="wide",
-    initial_sidebar_state="expanded",
+    initial_sidebar_state= "collapsed",
 )
 
 # Data management
@@ -23,16 +25,19 @@ def load_data(worksheet):
 # Features
 def plot_map():
     st.session_state["df"]  = load_data( worksheet = 'Assets')
-    st.map(st.session_state["df"].set_index('Imovel')[['LAT', 'LON']].dropna())
+    map = folium.Map(location=[-23.587461222039746, -46.67960737644582])
+    for i in range(0, len(st.session_state["df"])):
+        location = [st.session_state["df"].iloc[i]['LAT'], st.session_state["df"].iloc[i]['LON']]
+        folium.Marker(location, popup = st.session_state["df"].iloc[i]['Imovel'], tooltip= st.session_state["df"].iloc[i]['Imovel']).add_to(map) 
+    st_folium(map, width=1500, height=400, center=[-23.3, -45.0] ,zoom=8)
 
 # Home page
 st.title('Welcome to Jarvis')
 st.markdown('A platform to manage your real estate properties')
 
-
 # Assets
 with st.expander('Asset'): 
-    plot_map()
+    plot_map()   
     st.session_state["df"] = load_data( worksheet = 'Assets')
     st.write(st.session_state["df"])
 
