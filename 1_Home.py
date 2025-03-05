@@ -61,7 +61,7 @@ with col2:
             "Classificao": filtered_df["Classificacao"],
             "Valor Patrimonial": filtered_df["Valor Patrimonial"]
         })
-        st.bar_chart(chart_data, x='UF', y='Valor Patrimonial', color='Classificao', use_container_width=True)
+        st.bar_chart(chart_data, x='UF', y='Valor Patrimonial', color='Classificao',stack = "layered", horizontal= False, use_container_width=True)
 
 # Assets
 with st.expander('Asset'): 
