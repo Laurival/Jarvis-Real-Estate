@@ -3,10 +3,8 @@ import pandas as pd
 import folium
 from streamlit_folium import st_folium
 from streamlit_gsheets import GSheetsConnection
-import matplotlib.pyplot as plt
-import altair as alt
-import numpy as np
 import plotly.express as px
+import time
 
 # Pages configuration
 st.set_page_config(
@@ -35,8 +33,8 @@ def plot_map():
     st_folium(map, width=1500, height=400, center=[-23.3, -45.0] ,zoom=8)
 
 # Home page
-st.title('Welcome to Jarvis')
-st.markdown('A platform to manage your real estate properties')
+st.title('Welcome to Jarvis :house:')
+st.write('A platform to manage your real estate properties')
 st.session_state["df"] = load_data( worksheet = 'Assets')
 
 # Dashboard
@@ -47,7 +45,8 @@ with st.container(border=True):
     selected_value = st.selectbox('Select value', unique_values)
 
     filtered_df = st.session_state["df"][st.session_state["df"][selected_columns] == selected_value]
-    col1, col2= st.columns(2, vertical_alignment="bottom", border= True)
+
+col1, col2= st.columns(2, vertical_alignment="bottom", border= True)
 with col1:
         chart_data = pd.DataFrame({
             "Classificacao": filtered_df["Classificacao"],
@@ -73,3 +72,6 @@ with st.expander('Asset'):
 with st.expander('Rent Roll'): 
     st.session_state["df"] = load_data( worksheet = 'Rentroll')
     st.write(st.session_state["df"])
+
+st.divider()
+st.markdown('Created by Lori :book:')
