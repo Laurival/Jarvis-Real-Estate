@@ -29,7 +29,7 @@ def plot_map():
     map = folium.Map(location=[-23.587461222039746, -46.67960737644582])
     for i in range(0, len(st.session_state["df"])):
         location = [st.session_state["df"].iloc[i]['LAT'], st.session_state["df"].iloc[i]['LON']]
-        folium.Marker(location, tooltip= st.session_state["df"].iloc[i]['Imovel']).add_to(map) 
+        folium.Marker(location, popup = "Imovel     ABL    Estategia" , tooltip= st.session_state["df"].iloc[i]['Imovel']).add_to(map) 
     st_folium(map, width=1500, height=400, center=[-23.3, -45.0] ,zoom=8)
 
 # Home page
@@ -45,7 +45,6 @@ with st.container(border=True):
     selected_value = st.selectbox('Select value', unique_values)
 
     filtered_df = st.session_state["df"][st.session_state["df"][selected_columns] == selected_value]
-
 col1, col2= st.columns(2, vertical_alignment="bottom", border= True)
 with col1:
         chart_data = pd.DataFrame({
@@ -64,10 +63,13 @@ with col2:
 
 # Assets
 with st.expander('Asset'): 
-    plot_map()   
-    st.session_state["df"] = load_data( worksheet = 'Assets')
-    st.write(st.session_state["df"])    
-       
+    col11, col21= st.columns(2, vertical_alignment="top", border= True)
+    with col11:
+        st.session_state["df"] = load_data( worksheet = 'Assets')
+        st.write(st.session_state["df"])       
+    with col21:
+        plot_map()
+
 # Rent Roll
 with st.expander('Rent Roll'): 
     st.session_state["df"] = load_data( worksheet = 'Rentroll')

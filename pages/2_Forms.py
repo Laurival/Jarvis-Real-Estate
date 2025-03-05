@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 from streamlit_gsheets import GSheetsConnection
+import numpy as np
 
 st.set_page_config(
     page_title = "Forms",   
@@ -31,8 +32,16 @@ if "df" not in st.session_state:
 # Features
 def plot_map():
     st.session_state["df"]  = load_data( worksheet = 'Assets')
-    st.map(st.session_state["df"].set_index('Imovel')[['LAT', 'LON']].dropna())
-
+    map = st.session_state["df"]
+    map_size = np.random.randn(11) * 100
+    st.map(
+        map,
+        latitude= map["LAT"],
+        longitude= map["LON"],
+        width= 400,
+        height= 750,
+        )
+ 
 # Page layout
 st.title('Forms 📝')
 tab1, tab2, tab3 = st.tabs(["New Asset", "New Lease Contract", "To be Continued"])
@@ -83,6 +92,7 @@ with tab1:
 
 # New Lease Contract (Forms) - Tab2 
 with tab2:
+
     formtab2_values = {
         "Imovel": None,
         "Inquilino": None,  
