@@ -7,7 +7,7 @@ st.set_page_config(
     page_title = "Forms",   
     page_icon = "📝",
     layout = "wide",
-    initial_sidebar_state = "expanded"
+    initial_sidebar_state = "collapsed"
 )
 
 # Data management
@@ -44,6 +44,10 @@ with tab1:
         "LAT": None,
         "LON": None,
         "Estrategia": None,
+        "UF": None,
+        "Cidade": None,
+        "Classificacao": None,
+        "Valor Patrimonial": None,
     }
     # Plot map
     plot_map()
@@ -52,7 +56,11 @@ with tab1:
         formtab1_values['Imovel'] = st.text_input(label='Imovel')
         formtab1_values['LAT'] = st.number_input(label='LAT', min_value=-100.000000, max_value=100.000000, format="%0.6f", value= 0.00000)
         formtab1_values['LON'] = st.number_input(label='LON', min_value=-100.000000, max_value=100.000000, format="%0.6f", value= 0.00000)        
-        formtab1_values['Estrategia'] = st.selectbox('Estrategia', ['Logistico', 'Escritorio', 'Varejo', 'Educacional',  'Residencial', 'Outros'])  
+        formtab1_values['Estrategia'] = st.selectbox('Estrategia', ['Logistico', 'Escritorio', 'Varejo', 'Educacional',  'Residencial', 'Outros'])
+        formtab1_values['UF'] = st.selectbox('UF', ['SP', 'RJ', 'MG', 'ES', 'BA', 'CE', 'PE', 'RN', 'PB', 'AL', 'SE', 'PI', 'MA', 'PA', 'AP', 'AM', 'RR', 'AC', 'RO', 'MT', 'MS', 'GO', 'DF', 'PR', 'SC', 'RS'])
+        formtab1_values['Cidade'] = st.text_input(label='Cidade')
+        formtab1_values['Classificacao'] = st.selectbox('Classificacao', ['AAA', 'AA', 'A', 'B', 'C'])
+        formtab1_values['Valor Patrimonial'] = st.number_input(label='Valor Patrimonial', min_value=0, max_value=10000000000)  
 
         submit_button = st.form_submit_button(label='Submit')
         if submit_button:
